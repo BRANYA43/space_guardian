@@ -29,7 +29,8 @@ class Ship(GameObject):
             self.x += self.move_speed
 
     def set_moving_flag(self, direction: int, value: bool):
-        self.__setattr__(DIRECTIONS[direction], value)
+        directions = ('_moving_up', '_moving_down', '_moving_left', '_moving_right')
+        self.__setattr__(directions[direction], value)
 
     def attack(self):
         projectile = self._weapon.get_projectile()
