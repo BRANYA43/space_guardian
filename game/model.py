@@ -3,6 +3,7 @@ from pygame.sprite import Sprite
 from pygame.sprite import Group
 
 from game.global_vairables import RIGHT, LEFT
+from game.objects import Alien
 from objects import Projectile
 from objects import Weapon
 from objects import Ship
@@ -34,12 +35,13 @@ class Model:
         }
         self.player = Ship(images.ship, self.weapons['player']['radioactive_gun'])
         self.aliens = (images.alien_1, images.alien_2, images.alien_3)
-        self.flot = Group()
+        self.fleet = Group()
 
     def set_up_start_params(self):
         self.player.centerx = self._view.display_rect.centerx
         self.player.bottom = self._view.display_rect.bottom - 10
-        self.create_flot()
+        self.create_fleet()
+        self.fleet.sprites()[0].set_moving_flag(RIGHT, True)
 
     def set_view(self, view):
         self._view = view
@@ -48,6 +50,7 @@ class Model:
         self.collide()
         self.update_player_projectiles()
         self.update_player()
+        self.update_fleet()
 
     def update_player(self):
         if self.player.right > self._view.display_rect.right:
@@ -73,15 +76,37 @@ class Model:
 
     def collide(self):
         pygame.sprite.spritecollide(self.player, self.alien_projectiles, True)
-        pygame.sprite.groupcollide(self.flot, self.player_projectiles, True, True)
+        pygame.sprite.groupcollide(self.fleet, self.player_projectiles, True, True)
 
-    def create_flot(self):
+    def create_fleet(self):
         row = 0
         distance = 5
         for image in self.aliens:
             for column in range(10):
-                alien = Ship(image, self.weapons['alien']['gun'])
+                alien = Alien(image, self.weapons['alien']['gun'])
                 alien.y = (16 + distance) * row
                 alien.x = (16 + distance) * column
-                self.flot.add(alien)
+                self.fleet.add(alien)
             row += 1
+
+    def update_fleet(self):
+        for alien in self.fleet:
+            alien.update()
+        self.check_fleet_edge()
+
+    def check_fleet_edge(self):
+        for alien in self.fleet:
+            if alien.right > self._view.display_rect.right:
+                alien.set_moving_flag(RIGHT, False)
+                alien.set_moving_flag(LEFT, True)
+                self.move_drop_fleet()
+                break
+            elif alien.left < self._view.display_rect.left:
+                alien.set_moving_flag(RIGHT, True)
+                alien.set_moving_flag(LEFT, False)
+                self.move_drop_fleet()
+                break
+    def move_drop_fleet(self):
+        for alien in self.fleet:
+            alien.drop()
+

@@ -28,5 +28,5 @@ class View:
             projectile.draw(self.display)
 
     def draw_flot(self):
-        for alien in self._model.flot:
+        for alien in self._model.fleet:
             alien.draw(self.display)
