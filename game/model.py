@@ -16,4 +16,7 @@ class Model:
         self._view = view
 
     def update(self):
-        ...
+        self.update_player()
+
+    def update_player(self):
+        self.player.update()
