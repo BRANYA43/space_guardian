@@ -5,7 +5,8 @@ from config import *
 
 class View:
     def __init__(self):
-        self._model = None
+        from model import Model
+        self._model: Model | None = None
         self.display = pygame.display.set_mode((WIDTH, HEIGHT))
         self.display_rect = self.display.get_rect()
 
@@ -13,5 +14,9 @@ class View:
         self._model = model
 
     def draw(self):
-        self.display.fill((255, 255, 0))
+        self.display.fill((0, 0, 0))
+        self.player_draw()
         pygame.display.update()
+
+    def player_draw(self):
+        self._model.player.draw(self.display)
