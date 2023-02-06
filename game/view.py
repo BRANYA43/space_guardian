@@ -17,6 +17,7 @@ class View:
         self.display.fill((0, 0, 0))
         self.draw_player_projectiles()
         self.draw_player()
+        self.draw_flot()
         pygame.display.update()
 
     def draw_player(self):
@@ -25,3 +26,7 @@ class View:
     def draw_player_projectiles(self):
         for projectile in self._model.player_projectiles:
             projectile.draw(self.display)
+
+    def draw_flot(self):
+        for alien in self._model.flot:
+            alien.draw(self.display)

@@ -19,18 +19,25 @@ class Model:
             'radioactive_wave': Projectile(images.radioactive_wave),
             'rocket': Projectile(images.rocket),
         }
-        self.weapons = {'player': {
-            'railgun': Weapon(self.projectiles['rail'], self.player_projectiles),
-            'plasma_gun': Weapon(self.projectiles['plasma_ball'], self.player_projectiles),
-            'radioactive_gun': Weapon(self.projectiles['radioactive_wave'], self.player_projectiles),
-            'bazuka': Weapon(self.projectiles['rocket'], self.player_projectiles),
-        }}
-        self.player = Ship(images.ship, self.weapons['player']['railgun'])
-        self.alien = None
+        self.weapons = {
+            'player': {
+                'railgun': Weapon(self.projectiles['rail'], self.player_projectiles),
+                'plasma_gun': Weapon(self.projectiles['plasma_ball'], self.player_projectiles),
+                'radioactive_gun': Weapon(self.projectiles['radioactive_wave'], self.player_projectiles),
+                'bazuka': Weapon(self.projectiles['rocket'], self.player_projectiles),
+            },
+            'alien': {
+                'gun': Weapon(self.projectiles['plasma_ball'], self.alien_projectiles, 90)
+            }
+        }
+        self.player = Ship(images.ship, self.weapons['player']['radioactive_gun'])
+        self.aliens = (images.alien_1, images.alien_2, images.alien_3)
+        self.flot = Group()
 
     def set_up_start_params(self):
         self.player.centerx = self._view.display_rect.centerx
         self.player.bottom = self._view.display_rect.bottom - 10
+        self.create_flot()
 
     def set_view(self, view):
         self._view = view
@@ -53,3 +60,14 @@ class Model:
             return
         else:
             projectile.kill()
+
+    def create_flot(self):
+        row = 0
+        distance = 5
+        for image in self.aliens:
+            for column in range(10):
+                alien = Ship(image, self.weapons['alien']['gun'])
+                alien.y = (16 + distance) * row
+                alien.x = (16 + distance) * column
+                self.flot.add(alien)
+            row += 1

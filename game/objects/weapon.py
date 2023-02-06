@@ -5,9 +5,10 @@ from .projectile import Projectile
 
 
 class Weapon:
-    def __init__(self, projectile: Projectile, projectiles: Group):
+    def __init__(self, projectile: Projectile, projectiles: Group, angle: int = 270):
         self._projectile = projectile
         self._projectiles = projectiles
+        self.set_angle(angle)
 
     def attack(self):
         new_projectile = Projectile(self._projectile.get_image())
