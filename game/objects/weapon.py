@@ -21,3 +21,6 @@ class Weapon:
 
     def set_angle(self, value: int):
         self._projectile.angle = value
+
+    def get_projectile(self) -> Projectile:
+        return self._projectile

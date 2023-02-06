@@ -8,10 +8,10 @@ from .projectile import Projectile
 
 
 class Ship(GameObject):
-    def __init__(self, image: pygame.Surface):
+    def __init__(self, image: pygame.Surface, weapon: Weapon):
         super().__init__(image)
         self.move_speed = 5
-        self._weapon: Weapon | None = None
+        self._weapon = weapon
         self._health = 1
         self._moving_up = False
         self._moving_down = False
@@ -28,13 +28,13 @@ class Ship(GameObject):
         if self._moving_right:
             self.x += self.move_speed
 
-    def set_weapon(self, projectile: Projectile, projectiles: Group):
-        self._weapon = Weapon(projectile, projectiles)
-
     def set_moving_flag(self, direction: int, value: bool):
         self.__setattr__(DIRECTIONS[direction], value)
 
     def attack(self):
+        projectile = self._weapon.get_projectile()
+        projectile.centerx = self.centerx
+        projectile.bottom = self.top
         self._weapon.attack()
 
     @property
