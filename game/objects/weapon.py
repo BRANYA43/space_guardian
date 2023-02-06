@@ -14,6 +14,7 @@ class Weapon:
         new_projectile.move_speed = self._projectile.move_speed
         new_projectile.damage = self._projectile.damage
         new_projectile.angle = self._projectile.angle
+        new_projectile.center = self._projectile.center
         self._projectiles.add(new_projectile)
 
     def get_damage(self) -> int:
