@@ -26,6 +26,8 @@ class Controller:
             self._model.player.set_moving_flag(LEFT, True)
         elif event.key == pygame.K_RIGHT:
             self._model.player.set_moving_flag(RIGHT, True)
+        elif event.key == pygame.K_SPACE:
+            self._model.player.attack()
 
     def handler_keyup_events(self, event: Event):
         if event.key == pygame.K_LEFT:

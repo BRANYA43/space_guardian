@@ -15,8 +15,13 @@ class View:
 
     def draw(self):
         self.display.fill((0, 0, 0))
-        self.player_draw()
+        self.draw_player_projectiles()
+        self.draw_player()
         pygame.display.update()
 
-    def player_draw(self):
+    def draw_player(self):
         self._model.player.draw(self.display)
+
+    def draw_player_projectiles(self):
+        for projectile in self._model.player_projectiles:
+            projectile.draw(self.display)
