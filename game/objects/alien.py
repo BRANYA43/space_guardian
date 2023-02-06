@@ -1,10 +1,10 @@
 from pygame import Surface
 
-from . import Weapon
+from .weapon import Weapon
 from .game_object import GameObject
 
 from game.config import *
-from ..global_vairables import *
+from game.global_vairables import *
 
 
 class Alien(GameObject):
@@ -12,7 +12,6 @@ class Alien(GameObject):
     _move_speed_down = MOVE_SPEED_DOWN_ALIEN
     _moving_left = False
     _moving_right = False
-    _moving_down = False
 
     def __init__(self, image: Surface, weapon: Weapon):
         super().__init__(image)
@@ -23,8 +22,6 @@ class Alien(GameObject):
             self.x -= self._move_speed_
         if self._moving_right:
             self.x += self._move_speed_
-        if self._moving_down:
-            self.y += self._move_speed_down
 
     def attack(self):
         projectile = self._weapon.get_projectile()
@@ -42,9 +39,12 @@ class Alien(GameObject):
 
     @classmethod
     def set_moving_flag(cls, direction: int, value: bool):
-        directions = {
-            DOWN: '_moving_down',
-            LEFT: '_moving_left',
-            RIGHT: '_moving_right'}
-        cls.__setattr__(cls, directions[direction], value)
+        if direction == LEFT:
+            cls._moving_left = value
+        elif direction == RIGHT:
+            cls._moving_right = value
+
+    def drop(self):
+        self.y += self._move_speed_down
+
 
