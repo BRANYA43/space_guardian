@@ -1,6 +1,7 @@
 from pygame.sprite import Sprite
 from pygame.sprite import Group
 
+from game.global_vairables import RIGHT, LEFT
 from objects import Projectile
 from objects import Weapon
 from objects import Ship
@@ -47,6 +48,13 @@ class Model:
         self.update_player()
 
     def update_player(self):
+        if self.player.right > self._view.display_rect.right:
+            self.player.set_moving_flag(RIGHT, False)
+            self.player.right = self._view.display_rect.right
+        elif self.player.left < 0:
+            self.player.set_moving_flag(LEFT, False)
+            self.player.left = self._view.display_rect.left
+
         self.player.update()
 
     def update_player_projectiles(self):
