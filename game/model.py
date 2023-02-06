@@ -1,3 +1,4 @@
+import pygame
 from pygame.sprite import Sprite
 from pygame.sprite import Group
 
@@ -44,6 +45,7 @@ class Model:
         self._view = view
 
     def update(self):
+        self.collide()
         self.update_player_projectiles()
         self.update_player()
 
@@ -68,6 +70,10 @@ class Model:
             return
         else:
             projectile.kill()
+
+    def collide(self):
+        pygame.sprite.spritecollide(self.player, self.alien_projectiles, True)
+        pygame.sprite.groupcollide(self.flot, self.player_projectiles, True, True)
 
     def create_flot(self):
         row = 0

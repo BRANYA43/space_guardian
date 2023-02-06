@@ -8,80 +8,80 @@ class GameObject(Sprite, ABC):
     def __init__(self, image: Surface):
         super().__init__()
         self._image = image
-        self._rect = self._image.get_rect()
+        self.rect = self._image.get_rect()
         self._move_speed = 0
 
     @property
     def top(self) -> int:
-        return self._rect.top
+        return self.rect.top
 
     @top.setter
     def top(self, value: int):
-        self._rect.top = value
+        self.rect.top = value
 
     @property
     def bottom(self) -> int:
-        return self._rect.bottom
+        return self.rect.bottom
 
     @bottom.setter
     def bottom(self, value: int):
-        self._rect.bottom = value
+        self.rect.bottom = value
 
     @property
     def left(self) -> int:
-        return self._rect.left
+        return self.rect.left
 
     @left.setter
     def left(self, value: int):
-        self._rect.left = value
+        self.rect.left = value
 
     @property
     def right(self) -> int:
-        return self._rect.right
+        return self.rect.right
 
     @right.setter
     def right(self, value: int):
-        self._rect.right = value
+        self.rect.right = value
 
     @property
     def center(self) -> int:
-        return self._rect.center
+        return self.rect.center
 
     @center.setter
     def center(self, value: int):
-        self._rect.center = value
+        self.rect.center = value
 
     @property
     def centerx(self) -> int:
-        return self._rect.centerx
+        return self.rect.centerx
 
     @centerx.setter
     def centerx(self, value: int):
-        self._rect.centerx = value
+        self.rect.centerx = value
 
     @property
     def centery(self) -> int:
-        return self._rect.centery
+        return self.rect.centery
 
     @centery.setter
     def centery(self, value: int):
-        self._rect.centery = value
+        self.rect.centery = value
 
     @property
     def x(self) -> int:
-        return self._rect.x
+        return self.rect.x
 
     @x.setter
     def x(self, value: int | float):
-        self._rect.x = value
+        self.rect.x = value
 
     @property
     def y(self) -> int:
-        return self._rect.y
+        return self.rect.y
 
     @y.setter
     def y(self, value: int | float):
-        self._rect.y = value
+        self.rect.y = value
 
     @property
     def move_speed(self) -> int:
@@ -92,7 +92,7 @@ class GameObject(Sprite, ABC):
         self._move_speed = value
 
     def draw(self, surface: Surface):
-        surface.blit(self._image, self._rect)
+        surface.blit(self._image, self.rect)
 
     def update(self):
         if self._move_speed == 0:

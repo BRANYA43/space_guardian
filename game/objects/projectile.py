@@ -14,8 +14,8 @@ class Projectile(GameObject):
         
     def update(self):
         radian = self._angle * math.pi / 180
-        self._rect.x += round(math.cos(radian) * self._move_speed)
-        self._rect.y += round(math.sin(radian) * self._move_speed)
+        self.rect.x += round(math.cos(radian) * self._move_speed)
+        self.rect.y += round(math.sin(radian) * self._move_speed)
     
     @property
     def damage(self) -> int:
