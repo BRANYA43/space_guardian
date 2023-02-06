@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Group
 
-from projectile import Projectile
+from .projectile import Projectile
 
 
 class Weapon:

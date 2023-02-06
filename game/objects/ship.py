@@ -1,10 +1,10 @@
 import pygame
 from pygame.sprite import Group
 
-from ..global_vairables import DIRECTIONS
-from game_object import GameObject
-from weapon import Weapon
-from projectile import Projectile
+from game.global_vairables import DIRECTIONS
+from .game_object import GameObject
+from .weapon import Weapon
+from .projectile import Projectile
 
 
 class Ship(GameObject):

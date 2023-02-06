@@ -1,6 +1,6 @@
-from projectile import Projectile
-from weapon import Weapon
-from ship import Ship
+from .projectile import Projectile
+from .weapon import Weapon
+from .ship import Ship
 
 import game.images as images
 
