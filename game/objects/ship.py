@@ -1,11 +1,12 @@
 import pygame
+from pygame import Surface
 
 from .game_object import GameObject
 from .weapon import Weapon
 
 
 class Ship(GameObject):
-    def __init__(self, image: pygame.Surface, weapon: Weapon):
+    def __init__(self, image: Surface, weapon: Weapon):
         super().__init__(image)
         self.move_speed = 5
         self._weapon = weapon

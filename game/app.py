@@ -18,7 +18,7 @@ class App:
         self.controller = Controller(self.model)
 
     def mainloop(self):
-        self.model.set_up_start_params()
+        self.model.start_game()
         while self.game_run:
             self.controller.handler_events()
             self.model.update()

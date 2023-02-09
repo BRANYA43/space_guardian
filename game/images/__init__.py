@@ -8,6 +8,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 alien_1 = load('alien_1.png')
 alien_2 = load('alien_2.png')
 alien_3 = load('alien_3.png')
+alien_4 = load('alien_4.png')
 
 # projectiles
 rail = load('rail.png')
