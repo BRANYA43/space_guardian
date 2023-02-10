@@ -2,11 +2,11 @@ import math
 
 from pygame import Surface
 
-from .game_object import GameObject
+from .game_object import GameObject2
 from game.utils import decorators
 
 
-class Projectile(GameObject):
+class Projectile(GameObject2):
     def __init__(self, image: Surface):
         super().__init__(image)
         self.move_speed = 5

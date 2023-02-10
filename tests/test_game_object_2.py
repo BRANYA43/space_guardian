@@ -2,14 +2,14 @@ import unittest
 
 from pygame import Surface, Rect
 
-from game.objects.game_object import GameObject
+from game.objects.game_object import GameObject2
 
 
 class TestGameObject(unittest.TestCase):
     def setUp(self) -> None:
         image_ = Surface(size=(32, 32))
 
-        class SomeGameObject(GameObject):
+        class SomeGameObject(GameObject2):
 
             def __init__(self, image):
                 super().__init__(image)
