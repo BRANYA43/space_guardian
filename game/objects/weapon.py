@@ -1,28 +1,26 @@
-import pygame
 from pygame.sprite import Group
 
+from .game_object import GameObject1
 from .projectile import Projectile
+from game.utils import functions
 
 
-class Weapon:
-    def __init__(self, projectile: Projectile, projectiles: Group, angle: int = 270):
-        self._projectile = projectile
-        self._projectiles = projectiles
-        self.set_angle(angle)
+class Weapon(GameObject1):
+    def __init__(self, projectile: Projectile, projectiles: Group):
+        self._projectile: Projectile = functions.get_valid_value(Projectile, projectile)
+        self._projectiles = functions.get_valid_value(Group, projectiles)
 
-    def attack(self):
-        new_projectile = Projectile(self._projectile.get_image())
-        new_projectile.move_speed = self._projectile.move_speed
-        new_projectile.damage = self._projectile.damage
-        new_projectile.angle = self._projectile.angle
-        new_projectile.center = self._projectile.center
-        self._projectiles.add(new_projectile)
+    def get_copy(self):
+        copy = self._create_obj(self._projectile, self._projectiles)
+        return copy
 
-    def get_damage(self) -> int:
-        return self._projectile.damage
+    def attack(self, centerx: int, centery: int):
+        self._projectile.center = (centerx, centery)
+        self._projectiles.add(self._projectile.get_copy())
 
-    def set_angle(self, value: int):
-        self._projectile.angle = value
-
-    def get_projectile(self) -> Projectile:
+    @property
+    def projectile(self):
         return self._projectile
+
+    def set_attack_angle(self, value: int):
+        self._projectile.angle = value
