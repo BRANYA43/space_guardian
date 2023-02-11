@@ -6,7 +6,6 @@ from pygame.sprite import Group
 from pygame import Surface
 
 from game.config import *
-from game.global_vairables import RIGHT, LEFT
 from game.objects import Alien
 from objects import Projectile
 from objects import Weapon
@@ -34,7 +33,7 @@ class Model:
                 'bazuka': Weapon(self.projectiles['rocket'], self.player_projectiles),
             },
             'alien': {
-                'gun': Weapon(self.projectiles['plasma_ball'], self.alien_projectiles, 90)
+                'gun': Weapon(self.projectiles['plasma_ball'], self.alien_projectiles)
             }
         }
         self.player = Ship(images.ship, self.weapons['player']['radioactive_gun'])
@@ -45,10 +44,11 @@ class Model:
         self.player.centerx = self._view.display_rect.centerx
         self.player.bottom = self._view.display_rect.bottom - 10
         self._create_fleet()
-        self.fleet.sprites()[0].set_moving_flag(RIGHT, True)
+        self.fleet.sprites()[0].set_global_moving_flag(RIGHT, True)
+
     def reset_game(self):
-        self.fleet.sprites()[0].set_moving_flag(LEFT, False)
-        self.fleet.sprites()[0].set_moving_flag(RIGHT, False)
+        self.fleet.sprites()[0].set_global_moving_flag(LEFT, False)
+        self.fleet.sprites()[0].set_global_moving_flag(RIGHT, False)
         self._delete_fleet()
         self._delete_projectiles()
         self.start_game()
@@ -133,13 +133,13 @@ class Model:
         for alien in self.fleet:
             alien: Alien
             if alien.right > self._view.display_rect.right:
-                alien.set_moving_flag(RIGHT, False)
-                alien.set_moving_flag(LEFT, True)
+                alien.set_global_moving_flag(RIGHT, False)
+                alien.set_global_moving_flag(LEFT, True)
                 self._drop_fleet()
                 break
             elif alien.left < self._view.display_rect.left:
-                alien.set_moving_flag(RIGHT, True)
-                alien.set_moving_flag(LEFT, False)
+                alien.set_global_moving_flag(RIGHT, True)
+                alien.set_global_moving_flag(LEFT, False)
                 self._drop_fleet()
                 break
 

@@ -8,8 +8,8 @@ from game.utils import decorators
 
 
 class Alien(Ship):
-    _global_move_speed = 10
-    _global_range_drop = 10
+    _global_move_speed = MOVE_SPEED_ALIEN
+    _global_range_drop = RANGE_DROP_ALIEN
     _global_moving_left = False
     _global_moving_right = False
 

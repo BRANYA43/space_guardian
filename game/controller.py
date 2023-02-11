@@ -3,7 +3,7 @@ import sys
 import pygame
 from pygame.event import Event
 
-from game.global_vairables import LEFT, RIGHT
+from config import *
 from model import Model
 
 
