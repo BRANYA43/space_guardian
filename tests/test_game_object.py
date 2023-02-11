@@ -9,7 +9,10 @@ class TestGameObject(unittest.TestCase):
     def setUp(self) -> None:
         image_ = Surface(size=(32, 32))
 
-        class SomeGameObject(GameObject2):
+        class SomeGameObject(GameObject):
+
+            def update(self):
+                pass
 
             def __init__(self, image):
                 super().__init__(image)
