@@ -2,7 +2,7 @@ import unittest
 
 from pygame import Surface, Rect
 
-from game.objects.game_object import GameObject2
+from game.objects import GameObject
 
 
 class TestGameObject(unittest.TestCase):

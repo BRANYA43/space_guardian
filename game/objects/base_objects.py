@@ -6,17 +6,25 @@ from pygame.sprite import Sprite
 from game.utils import decorators, functions
 
 
-class GameObject1(ABC):
+class BaseObject(ABC):
+    @abstractmethod
+    def __init__(self, *args, **kwargs):
+        """Initialization parameters"""
+        pass
+
     @abstractmethod
     def get_copy(self):
+        """Gets a copy object"""
         pass
 
     @classmethod
     def _create_obj(cls, *args, **kwargs):
+        """Creates and gets copy objects"""
         return cls(*args, **kwargs)
 
 
-class GameObject2(GameObject1, Sprite, ABC):
+class GameObject(BaseObject, Sprite, ABC):
+    @abstractmethod
     def __init__(self, image: Surface):
         super().__init__()
         self._image = functions.get_valid_value(Surface, image)
@@ -26,6 +34,7 @@ class GameObject2(GameObject1, Sprite, ABC):
     def draw(self, surface: Surface):
         surface.blit(self._image, self._rect)
 
+    @abstractmethod
     def update(self):
         pass
 

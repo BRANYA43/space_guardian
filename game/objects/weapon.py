@@ -1,11 +1,11 @@
 from pygame.sprite import Group
 
-from .game_object import GameObject1
+from .base_objects import BaseObject
 from .projectile import Projectile
 from game.utils import functions
 
 
-class Weapon(GameObject1):
+class Weapon(BaseObject):
     def __init__(self, projectile: Projectile, projectiles: Group):
         self._projectile: Projectile = functions.get_valid_value(Projectile, projectile)
         self._projectiles = functions.get_valid_value(Group, projectiles)

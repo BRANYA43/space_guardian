@@ -2,16 +2,22 @@ import math
 
 from pygame import Surface
 
-from .game_object import GameObject2
+from .base_objects import GameObject
 from game.utils import decorators
 
 
-class Projectile(GameObject2):
+class Projectile(GameObject):
     def __init__(self, image: Surface):
         super().__init__(image)
         self.move_speed = 5
         self._damage = 1
         self._angle = 270
+
+    def get_copy(self):
+        copy = super().get_copy()
+        copy.damage = self.damage
+        copy.angle = self._angle
+        return copy
 
     def update(self):
         radian = self._angle * math.pi / 180
@@ -41,12 +47,6 @@ class Projectile(GameObject2):
             self._angle = value
         else:
             raise ValueError('Angle has to be from/equal 0 and smaller 360.')
-
-    def get_copy(self):
-        copy = super().get_copy()
-        copy.damage = self.damage
-        copy.angle = self._angle
-        return copy
 
 
 
