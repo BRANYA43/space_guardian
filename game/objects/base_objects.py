@@ -10,7 +10,7 @@ class BaseObject(ABC):
     @abstractmethod
     def __init__(self, *args, **kwargs):
         """Initialization parameters"""
-        pass
+        super().__init__()
 
     @abstractmethod
     def get_copy(self):
@@ -26,7 +26,8 @@ class BaseObject(ABC):
 class GameObject(BaseObject, Sprite, ABC):
     @abstractmethod
     def __init__(self, image: Surface):
-        super().__init__()
+        BaseObject.__init__(self)
+        Sprite.__init__(self)
         self._image = functions.get_valid_value(Surface, image)
         self._rect = self._image.get_rect()
         self._move_speed = 0

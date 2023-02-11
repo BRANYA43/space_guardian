@@ -1,8 +1,9 @@
-import pygame
 from pygame import Surface
 
-from .game_object import GameObject
+from game.config import *
+from .base_objects import GameObject
 from .weapon import Weapon
+from game.utils import decorators
 
 
 class Ship(GameObject):
@@ -11,37 +12,52 @@ class Ship(GameObject):
         self.move_speed = 5
         self._weapon = weapon
         self._health = 1
-        self._moving_up = False
-        self._moving_down = False
         self._moving_left = False
         self._moving_right = False
 
+    def get_copy(self):
+        copy = self._create_obj(self._image, self._weapon)
+        copy.health = self._health
+        copy.move_speed = self.move_speed
+        return copy
+
     def update(self):
-        if self._moving_up:
-            self.y -= self.move_speed
-        if self._moving_down:
-            self.y += self.move_speed
         if self._moving_left:
             self.x -= self.move_speed
         if self._moving_right:
             self.x += self.move_speed
 
     def set_moving_flag(self, direction: int, value: bool):
-        directions = ('_moving_up', '_moving_down', '_moving_left', '_moving_right')
-        self.__setattr__(directions[direction], value)
+        directions = {
+            LEFT: '_moving_left',
+            RIGHT: '_moving_right'
+        }
+        if direction in directions.keys() and type(value) is bool:
+            self.__setattr__(directions[direction], value)
+        else:
+            raise ValueError('Direction has to be LEFT=2 or RIGHT=3.'
+                             'Value has to be bool type.')
 
     def attack(self):
-        projectile = self._weapon.get_projectile()
-        projectile.centerx = self.centerx
-        projectile.bottom = self.top
-        self._weapon.attack()
+        self._weapon.attack(self.centerx, self.top)
 
     @property
     def health(self) -> int:
         return self._health
 
     @health.setter
+    @decorators.is_type_value(int)
     def health(self, value: int):
-        self._health = value
+        if value >= 0:
+            self._health = value
+        else:
+            raise ValueError('Health has be from 0 and bigger.')
 
+    @property
+    def weapon(self):
+        return self._weapon
 
+    @weapon.setter
+    @decorators.is_type_value(Weapon)
+    def weapon(self, value: Weapon):
+        self._weapon = value
