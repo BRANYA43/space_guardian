@@ -1,6 +1,7 @@
 import pygame
 
 from config import *
+from objects import TextObject
 
 
 class View:
@@ -9,6 +10,8 @@ class View:
         self._model: Model | None = None
         self.display = pygame.display.set_mode((WIDTH, HEIGHT))
         self.display_rect = self.display.get_rect()
+
+        self.score = TextObject(self._model.score)
 
     def set_model(self, model):
         self._model = model
@@ -28,5 +31,9 @@ class View:
             projectile.draw(self.display)
 
     def draw_flot(self):
-        for alien in self._model.fleet:
+        for alien in self._model.alien_fleet:
             alien.draw(self.display)
+
+    def draw_statusbar(self):
+        self._model.statusbar.score.draw()
+        self._model.statusbar.live.draw()
