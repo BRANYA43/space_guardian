@@ -11,12 +11,14 @@ DISPLAY_SIZE = (WIDTH, HEIGHT)
 TITLE = 'SPACE GUARDIAN'
 
 # Font
-FONT_NAME = 'arial'
-FONT_SIZE = 14
+FONT_SIZE = 16
 TEXT_COLOR = (255, 255, 255)
 
 # Colors
-WHITE = '#ffffff'
+WHITE = '#FFFFFF'
+YELLOW = '#FFFF00'
+RED = '#FF0000'
+GREEN = '#00FF00'
 
 # Directions
 UP = 0
