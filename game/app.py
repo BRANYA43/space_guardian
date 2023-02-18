@@ -9,16 +9,15 @@ from game.view import View
 class App:
     def __init__(self):
         self.game_run = True
-        pygame.init()
         self.clock = pygame.time.Clock()
         self.model = Model()
         self.view = View()
-        self.model.set_view(self.view)
-        self.view.set_model(self.model)
         self.controller = Controller(self.model)
 
+        self.model.set_view(self.view)
+        self.view.set_model(self.model)
+
     def mainloop(self):
-        self.model.start_game()
         while self.game_run:
             self.controller.handler_events()
             self.model.update()
