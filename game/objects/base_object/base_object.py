@@ -8,7 +8,7 @@ from game.utils.functions import get_valid_value
 
 class BaseObject(ABC):
     def __init__(self, surface: Surface):
-        self._surface = get_valid_value(Surface, surface)
+        self._surface = get_valid_value(surface, Surface)
         self._rect = self._surface.get_rect()
 
     @is_value_type(Surface)

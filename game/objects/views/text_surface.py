@@ -11,8 +11,8 @@ class TextSurface(BaseObject):
     def __init__(self, text: str = '', *, font_name: str = FONT_NAME, font_size: int = FONT_SIZE,
                  color: color_code = WHITE, bg_color: color_code = None):
         self.text = get_valid_value(text, str)
-        self.color = get_valid_value(color, color_code)
-        self.bg_color = get_valid_value(bg_color, color_code)
+        self.color = get_valid_value(color, str)
+        self.bg_color = get_valid_value(bg_color, str | None)
         self.set_font(font_name, font_size)
         super().__init__(self._render())
 
