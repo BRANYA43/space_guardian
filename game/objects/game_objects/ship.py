@@ -4,7 +4,7 @@ from pygame.sprite import Group
 from ..base_objects import GameObject
 from .weapon import Weapon
 from game.utils.decorators import check_value_type
-from game.utils.functions import get_value_with_valid_type
+from game.utils.functions import validate_type
 from game.config import LEFT, RIGHT
 
 
@@ -12,8 +12,8 @@ class Ship(GameObject):
     def __init__(self, image: Surface, weapon: Weapon, group_projectiles: Group,
                  *, move_speed: int = 5, health: int = 1):
         super().__init__(image, move_speed=move_speed, health=health)
-        self._weapon = get_value_with_valid_type(weapon, Weapon)
-        self._group_projectiles = get_value_with_valid_type(group_projectiles, Group)
+        self._weapon = validate_type(weapon, Weapon)
+        self._group_projectiles = validate_type(group_projectiles, Group)
         self._moving_left = False
         self._moving_right = False
 

@@ -5,15 +5,15 @@ from ..base_objects import BaseObject
 from game.config import *
 from game.fonts import bionicle
 from game.utils.decorators import check_value_type, validate_color_code
-from game.utils.functions import get_value_with_valid_type
+from game.utils.functions import validate_type
 
 
 class TextSurface(BaseObject):
     def __init__(self, text: str, *, font: Font = bionicle, color: str = WHITE, bg: Surface = None):
-        self._text = get_value_with_valid_type(text, str)
-        self._text_color = get_value_with_valid_type(color, str)
-        self._font: Font = get_value_with_valid_type(font, Font)
-        self._bg_color = get_value_with_valid_type(bg, str | None)
+        self._text = validate_type(text, str)
+        self._text_color = validate_type(color, str)
+        self._font: Font = validate_type(font, Font)
+        self._bg_color = validate_type(bg, str | None)
         super().__init__(self._render())
 
     def _render(self) -> Surface:

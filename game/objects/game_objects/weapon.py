@@ -3,13 +3,13 @@ from pygame.sprite import Group
 from ..base_objects import CopyObject
 from .projectile import Projectile
 from game.utils.decorators import check_value_type
-from game.utils.functions import get_value_with_valid_type
+from game.utils.functions import validate_type
 
 
 class Weapon(CopyObject):
     def __init__(self, projectile: Projectile):
         super().__init__()
-        self._projectile: Projectile = get_value_with_valid_type(projectile, Projectile)
+        self._projectile: Projectile = validate_type(projectile, Projectile)
 
     def copy(self):
         return self.create(self._projectile.copy())

@@ -1,2 +1,2 @@
 from .game_objects import *
-from .views import *
+from .view_objects import *

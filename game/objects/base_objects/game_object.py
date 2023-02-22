@@ -4,14 +4,14 @@ from pygame import Surface
 
 from ..base_objects import CopyObject, BaseObject
 from game.utils.decorators import check_value_type
-from game.utils.functions import get_value_with_valid_type
+from game.utils.functions import validate_type
 
 
 class GameObject(BaseObject, CopyObject, ABC):
     def __init__(self, image: Surface, *, move_speed: int = 0, health: int = 0):
         super().__init__(image)
-        self._move_speed = get_value_with_valid_type(move_speed, int)
-        self._health = get_value_with_valid_type(health, int)
+        self._move_speed = validate_type(move_speed, int)
+        self._health = validate_type(health, int)
 
     def copy(self):
         return self.create(self.surface.copy(), move_speed=self._move_speed, health=self._health)

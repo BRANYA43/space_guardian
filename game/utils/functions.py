@@ -1,5 +1,5 @@
-def get_valid_value(value, types_):
-    if isinstance(value, types_):
-        return value
-    else:
-        raise TypeError(f'Value type have to be {types_}.')
+
+def validate_type(value, expected_type):
+    if not isinstance(value, expected_type):
+        raise TypeError(f'Expected {expected_type}, but got {type(value)}.')
+    return value

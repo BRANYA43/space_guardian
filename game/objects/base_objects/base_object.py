@@ -3,11 +3,12 @@ from abc import ABC
 from pygame import Surface, Rect
 
 from game.utils.decorators import check_value_type
+from game.utils.functions import validate_type
 
 
 class BaseObject(ABC):
     def __init__(self, surface: Surface):
-        self._surface = surface
+        self._surface = validate_type(surface)
         self._rect = self._surface.get_rect()
 
     def draw(self, surface: Surface):

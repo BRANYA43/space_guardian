@@ -4,7 +4,7 @@ from pygame.sprite import Sprite
 from ..base_objects import GameObject
 from .weapon import Weapon
 from game.utils.decorators import check_value_type
-from game.utils.functions import get_value_with_valid_type
+from game.utils.functions import validate_type
 from game.config import LEFT, RIGHT, TILE
 
 
@@ -17,7 +17,7 @@ class Alien(GameObject, Sprite):
     def __init__(self, image: Surface, weapon: Weapon, *, health: int = 0):
         Sprite.__init__(self)
         GameObject.__init__(self, image, health=health)
-        self._weapon = get_value_with_valid_type(weapon, Weapon)
+        self._weapon = validate_type(weapon, Weapon)
 
     def copy(self):
         return self.create(self.image, self._weapon, health=self.health)

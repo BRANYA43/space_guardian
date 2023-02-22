@@ -5,15 +5,15 @@ from pygame.sprite import Sprite
 
 from ..base_objects import GameObject
 from game.utils.decorators import check_value_type
-from game.utils.functions import get_value_with_valid_type
+from game.utils.functions import validate_type
 
 
 class Projectile(GameObject, Sprite):
     def __init__(self, image: Surface, *, move_speed: int = 5, damage: int = 1, angle: int = 270):
         Sprite.__init__(self)
         GameObject.__init__(self, image, move_speed=move_speed)
-        self._damage = get_value_with_valid_type(damage, int)
-        self._angle = get_value_with_valid_type(angle, int)
+        self._damage = validate_type(damage, int)
+        self._angle = validate_type(angle, int)
 
     def copy(self):
         copy = self.create(self.image.copy(),

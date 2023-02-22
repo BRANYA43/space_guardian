@@ -3,7 +3,7 @@ import unittest
 from game.utils.decorators import *
 
 
-class TestDecorators(unittest.TestCase):
+class TestUtilsDecorators(unittest.TestCase):
     def setUp(self) -> None:
         class Obj:
             @check_value_type(int)

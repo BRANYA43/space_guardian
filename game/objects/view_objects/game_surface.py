@@ -2,14 +2,14 @@ from pygame import Surface
 
 from ..base_objects import BaseObject
 from game.utils.decorators import check_value_type, validate_color_code
-from game.utils.functions import get_value_with_valid_type
+from game.utils.functions import validate_type
 
 
 class GameSurface(BaseObject):
     def __init__(self, size: tuple[int, int], *, color: str = None, bg: Surface = None):
         super().__init__(Surface(size))
-        self._color = get_value_with_valid_type(color, str | None)
-        self._bg = get_value_with_valid_type(bg, Surface | None)
+        self._color = validate_type(color, str | None)
+        self._bg = validate_type(bg, Surface | None)
         self._blit_object_list = []
 
     def draw(self, surface: Surface):
