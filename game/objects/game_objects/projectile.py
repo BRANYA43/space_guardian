@@ -16,10 +16,13 @@ class Projectile(GameObject, Sprite):
         self._angle = get_value_with_valid_type(angle, int)
 
     def copy(self):
-        return self.create(self.image.copy(),
-                           move_speed=self.move_speed,
-                           damage=self._damage,
-                           angle=self._angle)
+        copy = self.create(self.image.copy(),
+                    move_speed=self.move_speed,
+                    damage=self._damage,
+                    angle=self._angle)
+        copy.x = self.x
+        copy.y = self.y
+        return copy
 
     def update(self):
         radian = self._angle * math.pi / 180
