@@ -1,20 +1,26 @@
 from pygame import Surface
+from pygame.sprite import Sprite
 
+from ..base_objects import GameObject
 from .weapon import Weapon
-from .ship import Ship
+from game.utils.decorators import is_value_type, is_values_types
+from game.utils.functions import get_value_with_valid_type
+from game.config import LEFT, RIGHT, TILE
 
-from game.config import *
-from game.utils.decorators import is_value_type, is_values_type
 
-
-class Alien(Ship):
+class Alien(GameObject, Sprite):
     _global_move_speed = 1
     _global_range_drop = TILE
     _global_moving_left = False
     _global_moving_right = False
 
-    def __init__(self, image: Surface, weapon: Weapon):
-        super().__init__(image, weapon)
+    def __init__(self, image: Surface, weapon: Weapon, *, health: int = 0):
+        Sprite.__init__(self)
+        GameObject.__init__(self, image, health=health)
+        self._weapon = get_value_with_valid_type(weapon, Weapon)
+
+    def copy(self):
+        return self.create(self.image, self._weapon, health=self.health)
 
     def update(self):
         if self._global_moving_left:
@@ -24,9 +30,6 @@ class Alien(Ship):
 
     def drop(self):
         self.y += self._global_range_drop
-
-    def get_copy(self):
-        return self.create_new_obj(self.image, self.weapon, self.health)
 
     @classmethod
     @is_value_type(int)
@@ -39,12 +42,9 @@ class Alien(Ship):
         cls._global_range_drop = value
 
     @classmethod
-    @is_values_type(int, bool)
+    @is_values_types(int, bool)
     def set_global_moving_flag(cls, direction: int, value: bool):
         if direction == LEFT:
             cls._global_moving_left = value
         elif direction == RIGHT:
             cls._global_moving_right = value
-        else:
-            raise ValueError('Direction has to be LEFT=2 or RIGHT=3.'
-                             'Value has to be bool type.')
