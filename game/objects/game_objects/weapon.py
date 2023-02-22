@@ -1,28 +1,25 @@
 from pygame.sprite import Group
 
+from ..base_objects import CopyObject
 from .projectile import Projectile
-from game.utils.decorators import is_values_type
-from game.utils.functions import get_valid_value
+from game.utils.decorators import is_values_types
+from game.utils.functions import get_value_with_valid_type
 
 
-class Weapon:
-    def __init__(self, projectile: Projectile, sprite_group: Group):
-        self._projectile: Projectile = get_valid_value(Projectile, projectile)
-        self._sprite_group = get_valid_value(sprite_group, Group)
+class Weapon(CopyObject):
+    def __init__(self, projectile: Projectile):
+        super().__init__()
+        self._projectile: Projectile = get_value_with_valid_type(projectile, Projectile)
 
-    def get_copy(self):
-        return self.create_new_obj(self._projectile, self._sprite_group)
+    def copy(self):
+        return self.create(self._projectile.copy())
 
-    @classmethod
-    def create_new_obj(cls, *args, **kwargs):
-        return cls(*args, **kwargs)
-
-    @is_values_type(int, int)
-    def attack(self, centerx: int, centery: int):
+    @is_values_types(int, int, Group)
+    def attack(self, centerx: int, centery: int, projectile_group: Group):
         self._projectile.center = (centerx, centery)
-        self._sprite_group.add(self._projectile.get_copy())
+        copy = self._projectile.copy()
+        copy.add(projectile_group)
 
     @property
     def projectile(self):
         return self._projectile
-
