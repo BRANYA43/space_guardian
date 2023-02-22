@@ -8,7 +8,7 @@ from game.utils.functions import validate_type
 
 class BaseObject(ABC):
     def __init__(self, surface: Surface):
-        self._surface = validate_type(surface)
+        self._surface = validate_type(surface, Surface)
         self._rect = self._surface.get_rect()
 
     def draw(self, surface: Surface):
@@ -191,3 +191,9 @@ class BaseObject(ABC):
     @property
     def into_center(self) -> tuple[int, int]:
         return self.into_centerx, self.into_centery
+
+    def __str__(self):
+        return f'<{self.__class__.__name__}(x:{self.x} y:{self.y})>'
+
+    def __repr__(self):
+        return self.__str__()
