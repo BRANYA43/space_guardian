@@ -15,6 +15,7 @@ class TestBaseObject(unittest.TestCase):
         self.obj = Obj(self.surface)
 
     def test_properties(self):
+        # Getters
         property_values = (
             self.obj.x, self.obj.y, self.obj.width, self.obj.height,
             self.obj.top, self.obj.bottom, self.obj.left, self.obj.right,
@@ -49,6 +50,42 @@ class TestBaseObject(unittest.TestCase):
             self.assertIsInstance(value[0], int)
             self.assertIsInstance(value[1], int)
             self.assertEqual(correct_value, value)
+
+        # Setters
+        old_rect = self.obj.rect
+        self.obj.surface = Surface((10, 10))
+        self.assertIsNot(self.surface, self.obj.surface)
+        self.assertIsNot(old_rect, self.obj.rect)
+
+        set_value = 10
+        self.obj.x = set_value
+        self.assertEqual(set_value, self.obj.x)
+        self.obj.y = set_value
+        self.assertEqual(set_value, self.obj.y)
+        self.obj.top = set_value
+        self.assertEqual(set_value, self.obj.top)
+        self.obj.bottom = set_value
+        self.assertEqual(set_value, self.obj.bottom)
+        self.obj.left = set_value
+        self.assertEqual(set_value, self.obj.left)
+        self.obj.right = set_value
+        self.assertEqual(set_value, self.obj.right)
+        self.obj.centerx = set_value
+        self.assertEqual(set_value, self.obj.centerx)
+        self.obj.centery = set_value
+        self.assertEqual(set_value, self.obj.centery)
+
+        set_coords = (10, 10)
+        self.obj.center = set_coords
+        self.assertEqual(set_coords, self.obj.center)
+        self.obj.topleft = set_coords
+        self.assertEqual(set_coords, self.obj.topleft)
+        self.obj.topright = set_coords
+        self.assertEqual(set_coords, self.obj.topright)
+        self.obj.bottomleft = set_coords
+        self.assertEqual(set_coords, self.obj.bottomleft)
+        self.obj.bottomright = set_coords
+        self.assertEqual(set_coords, self.obj.bottomright)
 
 
 if __name__ == '__main__':

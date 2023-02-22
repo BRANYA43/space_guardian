@@ -14,12 +14,26 @@ class BaseObject(ABC):
         surface.blit(self._surface, self._rect)
 
     @property
+    def rect(self) -> Rect:
+        return self._rect
+
+    @property
+    def width(self) -> int:
+        return self._rect.width
+
+    @property
+    def height(self) -> int:
+        return self._rect.height
+
+    @property
     def surface(self) -> Surface:
         return self._surface
 
-    @property
-    def rect(self) -> Rect:
-        return self._rect
+    @surface.setter
+    @check_value_type(Surface)
+    def surface(self, value: Surface):
+        self._surface = value
+        self._rect = self._surface.get_rect()
 
     @property
     def x(self) -> int:
@@ -38,24 +52,6 @@ class BaseObject(ABC):
     @check_value_type(int)
     def y(self, value: int):
         self._rect.y = value
-
-    @property
-    def width(self) -> int:
-        return self._rect.width
-
-    @width.setter
-    @check_value_type(int)
-    def width(self, value: int):
-        self._rect.width = value
-
-    @property
-    def height(self) -> int:
-        return self._rect.height
-
-    @height.setter
-    @check_value_type(int)
-    def height(self, value: int):
-        self._rect.height = value
 
     @property
     def top(self) -> int:
