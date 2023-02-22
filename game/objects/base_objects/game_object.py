@@ -3,7 +3,7 @@ from abc import ABC
 from pygame import Surface
 
 from ..base_objects import CopyObject, BaseObject
-from game.utils.decorators import is_value_type
+from game.utils.decorators import check_value_type
 from game.utils.functions import get_value_with_valid_type
 
 
@@ -29,7 +29,7 @@ class GameObject(BaseObject, CopyObject, ABC):
         return self._move_speed
 
     @move_speed.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def move_speed(self, value: int):
         if value >= 0:
             self._move_speed = value
@@ -41,7 +41,7 @@ class GameObject(BaseObject, CopyObject, ABC):
         return self._health
 
     @health.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def health(self, value: int):
         if value >= 0:
             self._health = value

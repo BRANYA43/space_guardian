@@ -2,7 +2,7 @@ from abc import ABC
 
 from pygame import Surface, Rect
 
-from game.utils.decorators import is_value_type
+from game.utils.decorators import check_value_type
 
 
 class BaseObject(ABC):
@@ -26,7 +26,7 @@ class BaseObject(ABC):
         return self._rect.x
 
     @x.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def x(self, value: int):
         self._rect.x = value
 
@@ -35,7 +35,7 @@ class BaseObject(ABC):
         return self._rect.y
 
     @y.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def y(self, value: int):
         self._rect.y = value
 
@@ -44,7 +44,7 @@ class BaseObject(ABC):
         return self._rect.width
 
     @width.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def width(self, value: int):
         self._rect.width = value
 
@@ -53,7 +53,7 @@ class BaseObject(ABC):
         return self._rect.height
 
     @height.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def height(self, value: int):
         self._rect.height = value
 
@@ -62,7 +62,7 @@ class BaseObject(ABC):
         return self._rect.top
 
     @top.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def top(self, value: int):
         self._rect.top = value
 
@@ -71,7 +71,7 @@ class BaseObject(ABC):
         return self._rect.bottom
 
     @bottom.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def bottom(self, value: int):
         self._rect.bottom = value
 
@@ -80,7 +80,7 @@ class BaseObject(ABC):
         return self._rect.left
 
     @left.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def left(self, value: int):
         self._rect.left = value
 
@@ -89,7 +89,7 @@ class BaseObject(ABC):
         return self._rect.right
 
     @right.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def right(self, value: int):
         self._rect.right = value
 
@@ -98,7 +98,7 @@ class BaseObject(ABC):
         return self._rect.centerx
 
     @centerx.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def centerx(self, value: int):
         self._rect.centerx = value
 
@@ -107,7 +107,7 @@ class BaseObject(ABC):
         return self._rect.centery
 
     @centery.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def centery(self, value: int):
         self._rect.centery = value
 

@@ -1,45 +1,34 @@
-def is_value_type(types_):
-    def decorator(func):
-        def wrapper(self, value):
-            if isinstance(value, types_):
-                return func(self, value)
-            else:
-                raise TypeError(f'Value type have to be {types_}.')
-
-        return wrapper
-
-    return decorator
+import re
 
 
-def is_values_types(*types_):
+def check_value_type(*expected_types):
     def decorator(func):
         def wrapper(self, *args):
-            for value, type_ in zip(args, types_):
-                if not isinstance(value, type_):
-                    raise TypeError(f'Value type have to be {type_}.')
+            for value, expected_type in zip(args, expected_types):
+                if not isinstance(value, expected_type):
+                    raise TypeError(f'Expected {expected_type}, but got {type(value)}.')
                 return func(self, *args)
-
         return wrapper
-
     return decorator
 
 
-def is_color_code(func):
-    def wrapper(self, value):
-        if not isinstance(value, str) or 7 > len(value) > 7:
-            raise ValueError(f'Color has to have format #000000.')
-        return func(self, value)
-
+def validate_color_code(func):
+    def wrapper(self, color_code):
+        if not isinstance(color_code, str):
+            raise TypeError("Color code have to be a string")
+        if not re.match(r"^#[a-fA-F0-9]{6}$", color_code):
+            raise ValueError("Invalid color code format")
+        return func(self, color_code)
     return wrapper
 
 
-def is_coordinate(func):
-    def wrapper(self, value):
-        if not isinstance(value, tuple) \
-                or not isinstance(value[0], int) \
-                or not isinstance(value[0], int) \
-                or len(value) != 2:
-            raise ValueError('Coordinate has to be tuple with two argument type of int.')
-        return func(self, value)
-
+def validate_coordinates(func):
+    def wrapper(self, coordinates):
+        if not isinstance(coordinates, tuple):
+            raise ValueError("Coordinates have to be a tuple")
+        if len(coordinates) != 2:
+            raise ValueError("Coordinates have to be a tuple of length 2")
+        if not all(isinstance(coord, int) for coord in coordinates):
+            raise ValueError("Both coordinates have to be numbers")
+        return func(self, coordinates)
     return wrapper

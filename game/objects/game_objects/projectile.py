@@ -4,7 +4,7 @@ from pygame import Surface
 from pygame.sprite import Sprite
 
 from ..base_objects import GameObject
-from game.utils.decorators import is_value_type
+from game.utils.decorators import check_value_type
 from game.utils.functions import get_value_with_valid_type
 
 
@@ -34,7 +34,7 @@ class Projectile(GameObject, Sprite):
         return self._damage
 
     @damage.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def damage(self, value: int):
         if value >= 0:
             self._damage = value
@@ -46,7 +46,7 @@ class Projectile(GameObject, Sprite):
         return self._angle
 
     @angle.setter
-    @is_value_type(int)
+    @check_value_type(int)
     def angle(self, value: int):
         if 0 <= value < 360:
             self._angle = value

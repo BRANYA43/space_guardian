@@ -3,7 +3,7 @@ from pygame.sprite import Group
 
 from ..base_objects import GameObject
 from .weapon import Weapon
-from game.utils.decorators import is_values_types, is_value_type
+from game.utils.decorators import check_value_type
 from game.utils.functions import get_value_with_valid_type
 from game.config import LEFT, RIGHT
 
@@ -26,7 +26,7 @@ class Ship(GameObject):
         if self._moving_right:
             self.x += self.move_speed
 
-    @is_values_types(int, bool)
+    @check_value_type(int, bool)
     def set_moving_flag(self, direction: int, value: bool):
         directions = {
             LEFT: '_moving_left',
@@ -42,6 +42,6 @@ class Ship(GameObject):
         return self._weapon
 
     @weapon.setter
-    @is_value_type(Weapon)
+    @check_value_type(Weapon)
     def weapon(self, value: Weapon):
         self._weapon = value

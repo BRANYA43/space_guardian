@@ -3,7 +3,7 @@ from pygame.sprite import Sprite
 
 from ..base_objects import GameObject
 from .weapon import Weapon
-from game.utils.decorators import is_value_type, is_values_types
+from game.utils.decorators import check_value_type
 from game.utils.functions import get_value_with_valid_type
 from game.config import LEFT, RIGHT, TILE
 
@@ -32,17 +32,17 @@ class Alien(GameObject, Sprite):
         self.y += self._global_range_drop
 
     @classmethod
-    @is_value_type(int)
+    @check_value_type(int)
     def set_global_move_speed(cls, value: int):
         cls._global_move_speed = value
 
     @classmethod
-    @is_value_type(int)
+    @check_value_type(int)
     def set_global_range_drop(cls, value: int):
         cls._global_range_drop = value
 
     @classmethod
-    @is_values_types(int, bool)
+    @check_value_type(int, bool)
     def set_global_moving_flag(cls, direction: int, value: bool):
         if direction == LEFT:
             cls._global_moving_left = value
