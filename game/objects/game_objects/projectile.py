@@ -9,17 +9,18 @@ from game.utils.functions import validate_type
 
 
 class Projectile(GameObject, Sprite):
-    def __init__(self, image: Surface, *, move_speed: int = 5, damage: int = 1, angle: int = 270):
+    def __init__(self, image: Surface, *, move_speed: int = 5, health: int = 1, damage: int = 1, angle: int = 270):
         Sprite.__init__(self)
-        GameObject.__init__(self, image, move_speed=move_speed)
+        GameObject.__init__(self, image, move_speed=move_speed, health=health)
         self._damage = validate_type(damage, int)
         self._angle = validate_type(angle, int)
 
     def copy(self):
         copy = self.create(self.image.copy(),
-                    move_speed=self.move_speed,
-                    damage=self._damage,
-                    angle=self._angle)
+                           move_speed=self.move_speed,
+                           health=self.health,
+                           damage=self._damage,
+                           angle=self._angle)
         copy.x = self.x
         copy.y = self.y
         return copy
