@@ -1,39 +1,36 @@
 import pygame
+from pygame import Surface
 
 from config import *
-from objects import TextObject
+from objects import Display, GameSurface
 
 
 class View:
     def __init__(self):
         from model import Model
         self._model: Model | None = None
-        self.display = pygame.display.set_mode((WIDTH, HEIGHT))
-        self.display_rect = self.display.get_rect()
+        self.display = Display(DISPLAY_SIZE)
+        self.top_bar = GameSurface(TOP_BAR_SIZE)
+        self.game_board = GameSurface(GAME_BOARD_SIZE, color=BLACK)
+        self.bottom_bar = GameSurface(BOTTOM_BAR_SIZE)
+        self.score = ...
+        self.timer = ...
+        self.health = ...
 
-        self.score = TextObject(self._model.score)
+    def set_up_params(self):
+        self.top_bar.topleft = self.display.topleft
+        self.game_board.top = self.top_bar.bottom
+        self.bottom_bar.top = self.game_board.bottom
+
+        self.game_board.add_blit_object(self._model.player)
+        self.game_board.add_blit_object(self._model.player_projectiles)
+        self.game_board.add_blit_object(self._model.alien_fleet)
 
     def set_model(self, model):
         self._model = model
 
     def draw(self):
-        self.display.fill((0, 0, 0))
-        self.draw_player_projectiles()
-        self.draw_player()
-        self.draw_flot()
+        self.top_bar.draw(self.display.surface)
+        self.bottom_bar.draw(self.display.surface)
+        self.game_board.draw(self.display.surface)
         pygame.display.update()
-
-    def draw_player(self):
-        self._model.player.draw(self.display)
-
-    def draw_player_projectiles(self):
-        for projectile in self._model.player_projectiles:
-            projectile.draw(self.display)
-
-    def draw_flot(self):
-        for alien in self._model.alien_fleet:
-            alien.draw(self.display)
-
-    def draw_statusbar(self):
-        self._model.statusbar.score.draw()
-        self._model.statusbar.live.draw()

@@ -17,6 +17,9 @@ class App:
         self.model.set_view(self.view)
         self.view.set_model(self.model)
 
+        self.view.set_up_params()
+        self.model.set_up_params()
+
     def mainloop(self):
         while self.game_run:
             self.controller.handler_events()
