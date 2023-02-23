@@ -38,8 +38,6 @@ class TestGameObject(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.obj.move_speed = -123
             self.obj.move_speed -= 123
-            self.obj.health = -123
-            self.obj.health -= 123
 
     def test_copy(self):
         copy = self.obj.copy()

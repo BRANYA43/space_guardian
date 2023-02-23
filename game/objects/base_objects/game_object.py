@@ -8,7 +8,7 @@ from game.utils.functions import validate_type
 
 
 class GameObject(BaseObject, CopyObject, ABC):
-    def __init__(self, image: Surface, *, move_speed: int = 0, health: int = 0):
+    def __init__(self, image: Surface, *, move_speed: int = 0, health: int = 1):
         super().__init__(image)
         self._move_speed = validate_type(move_speed, int)
         self._health = validate_type(health, int)
@@ -43,7 +43,4 @@ class GameObject(BaseObject, CopyObject, ABC):
     @health.setter
     @check_value_type(int)
     def health(self, value: int):
-        if value >= 0:
-            self._health = value
-        else:
-            raise ValueError('Health has to be from 0 and over.')
+        self._health = value
