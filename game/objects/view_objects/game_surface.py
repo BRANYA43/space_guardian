@@ -1,4 +1,5 @@
 from pygame import Surface
+from pygame.sprite import Group
 
 from ..base_objects import BaseObject
 from game.utils.decorators import check_value_type, validate_color_code
@@ -13,14 +14,27 @@ class GameSurface(BaseObject):
         self._blit_object_list = []
 
     def draw(self, surface: Surface):
+        self._fill()
+        self._blit_bg()
+        self._blit_objects()
+        super().draw(surface)
+
+    def _fill(self):
         if self._color is not None:
             self.surface.fill(self._color)
+
+    def _blit_bg(self):
         if self._bg is not None:
             self.surface.blit(self._bg, self._bg.get_rect())
+
+    def _blit_objects(self):
         if self._blit_object_list:
-            for object_ in self._blit_object_list:
-                object_.draw(self.surface)
-        super().draw(surface)
+            for obj in self._blit_object_list:
+                if isinstance(obj, Group):
+                    for g_obj in obj:
+                        g_obj.draw(self.surface)
+                else:
+                    obj.draw(self.surface)
 
     @validate_color_code
     def set_color(self, value: str):
@@ -31,7 +45,7 @@ class GameSurface(BaseObject):
         self._bg = image_
 
     def add_blit_object(self, obj):
-        if 'draw' in obj.__dir__():
+        if 'draw' in obj.__dir__() or isinstance(obj, Group):
             self._blit_object_list.append(obj)
         else:
             raise ValueError('Object has to be method "draw()".')
