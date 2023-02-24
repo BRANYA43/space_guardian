@@ -55,7 +55,6 @@ class TestBaseObject(unittest.TestCase):
         old_rect = self.obj.rect
         self.obj.surface = Surface((10, 10))
         self.assertIsNot(self.surface, self.obj.surface)
-        self.assertIsNot(old_rect, self.obj.rect)
 
         set_value = 10
         self.obj.x = set_value

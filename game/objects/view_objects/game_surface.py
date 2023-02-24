@@ -11,12 +11,14 @@ class GameSurface(BaseObject):
         super().__init__(Surface(size))
         self._color = validate_type(color, str | None)
         self._bg = validate_type(bg, Surface | None)
-        self._blit_object_list = []
+        self._blit_objects_ = []
+        self._blit_groups_ = []
 
     def draw(self, surface: Surface):
         self._fill()
         self._blit_bg()
         self._blit_objects()
+        self._blit_groups()
         super().draw(surface)
 
     def _fill(self):
@@ -28,12 +30,14 @@ class GameSurface(BaseObject):
             self.surface.blit(self._bg, self._bg.get_rect())
 
     def _blit_objects(self):
-        if self._blit_object_list:
-            for obj in self._blit_object_list:
-                if isinstance(obj, Group):
-                    for g_obj in obj:
-                        g_obj.draw(self.surface)
-                else:
+        if self._blit_objects_:
+            for obj in self._blit_objects_:
+                obj.draw(self.surface)
+
+    def _blit_groups(self):
+        if self._blit_groups_:
+            for group in self._blit_groups_:
+                for obj in group:
                     obj.draw(self.surface)
 
     @validate_color_code
@@ -45,7 +49,16 @@ class GameSurface(BaseObject):
         self._bg = image_
 
     def add_blit_object(self, obj):
-        if 'draw' in obj.__dir__() or isinstance(obj, Group):
-            self._blit_object_list.append(obj)
+        if 'draw' in obj.__dir__():
+            self._blit_objects_.append(obj)
         else:
             raise ValueError('Object has to be method "draw()".')
+
+    @check_value_type(Group)
+    def add_blit_group(self, group: Group):
+        self._blit_groups_.append(group)
+
+    @check_value_type(tuple)
+    def add_blit_tuple(self, objs: tuple):
+        for obj in objs:
+            self.add_blit_object(obj)

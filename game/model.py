@@ -13,6 +13,8 @@ class Model:
     def __init__(self):
         from view import View
         self._view: View | None = None
+        self.updating = True
+        self.clock = pygame.time.Clock()
 
         # Groups
         self.player_projectiles = Group()
@@ -32,7 +34,7 @@ class Model:
         rocket_gun = Weapon(rocket)
 
         # Ships
-        self.player = Ship(images.ship, radioactive_gun.copy(), self.player_projectiles)
+        self.player = Ship(images.ship, rocket_gun.copy(), self.player_projectiles)
 
         # Aliens
         self.aliens = (
@@ -53,25 +55,7 @@ class Model:
         self.create_alien_fleet()
         self.aliens[0].set_global_moving_flag(RIGHT, True)
 
-    def update(self):
-        self.update_player()
-        self.update_alien_fleet()
-        self.update_projectiles()
-
-    def update_player(self):
-        self.check_ship_out_edge(self.player)
-        self.player.update()
-
-    def update_projectiles(self):
-        for projectiles in self.player_projectiles:
-            projectiles.update()
-            self.check_projectile_out_edge(projectiles)
-
-    def update_alien_fleet(self):
-        for alien in self.alien_fleet:
-            self.collide_player_projectiles_with_alien(alien)
-            alien.update()
-        self.check_alien_fleet_out_edge()
+        self._view.health.set_value(str(self.player.health))
 
     def create_alien_fleet(self):
         game_board = self._view.game_board
@@ -84,7 +68,7 @@ class Model:
 
         for col in range(cols):
             x = startx
-            y += TILE + drop if col != 0 else 0
+            y += TILE + drop if col != 0 else TILE
             for row in range(rows):
                 x += TILE + drop if row != 0 else 0
                 alien = self.aliens[col].copy()
@@ -92,13 +76,20 @@ class Model:
                 alien.y = y
                 alien.add(self.alien_fleet)
 
-    def check_projectile_out_edge(self, projectile: Projectile | Sprite):
-        game_board = self._view.game_board
-        if not (0 < projectile.centerx < game_board.width) \
-                or not (0 < projectile.centery < game_board.height):
-            projectile.kill()
+    def update(self):
+        self.is_win()
+        self.is_game_over()
+        if self.updating:
+            self._view.timer.update()
+            self.update_player()
+            self.update_alien_fleet()
+            self.update_projectiles()
 
-    def check_ship_out_edge(self, ship: Ship):
+    def update_player(self):
+        self.check_ship_out_edge()
+        self.player.update()
+
+    def check_ship_out_edge(self):
         game_board = self._view.game_board
         if self.player.right > game_board.into_right:
             self.player.set_moving_flag(RIGHT, False)
@@ -106,6 +97,41 @@ class Model:
         elif self.player.left < game_board.into_left:
             self.player.set_moving_flag(LEFT, False)
             self.player.left = game_board.into_left
+
+    def update_projectiles(self):
+        for projectiles in self.player_projectiles:
+            projectiles.update()
+            self.check_projectile_out_edge(projectiles)
+
+    def check_projectile_out_edge(self, projectile: Projectile | Sprite):
+        game_board = self._view.game_board
+        if not (0 < projectile.centerx < game_board.width) \
+                or not (0 < projectile.centery < game_board.height):
+            projectile.kill()
+
+    def update_alien_fleet(self):
+        for alien in self.alien_fleet:
+            self.collide_player_projectiles_with_alien(alien)
+            self.collide_player_with_alien(alien)
+            alien.update()
+        self.check_alien_fleet_out_edge()
+
+    def collide_player_projectiles_with_alien(self, alien: Alien | Sprite):
+        collides = pygame.sprite.spritecollide(alien, self.player_projectiles, False)
+        if collides:
+            projectile: Projectile | Sprite = collides[0]
+            alien.health -= projectile.damage
+            projectile.health -= 1
+            if alien.health <= 0:
+                alien.kill()
+                self._view.score.set_value(alien.score)
+            if projectile.health <= 0:
+                projectile.kill()
+
+    def collide_player_with_alien(self, alien: Alien | Sprite):
+        if pygame.sprite.collide_mask(self.player, alien):
+            self.player.health = 0
+            self._view.health.set_value('0')
 
     def check_alien_fleet_out_edge(self):
         game_board = self._view.game_board
@@ -127,13 +153,16 @@ class Model:
             alien: Alien | Sprite
             alien.drop()
 
-    def collide_player_projectiles_with_alien(self, alien: Alien | Sprite):
-        collides = pygame.sprite.spritecollide(alien, self.player_projectiles, False)
-        if collides:
-            projectile: Projectile | Sprite = collides[0]
-            alien.health -= projectile.damage
-            projectile.health -= 1
-            if alien.health <= 0:
-                alien.kill()
-            if projectile.health <= 0:
-                projectile.kill()
+    def is_win(self) -> bool:
+        if not self.alien_fleet.sprites():
+            self.updating = False
+            self._view.on_draw_win()
+            return True
+        return False
+
+    def is_game_over(self) -> bool:
+        if self.player.health <= 0:
+            self.updating = False
+            self._view.on_draw_game_over()
+            return True
+        return False

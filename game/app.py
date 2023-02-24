@@ -9,7 +9,6 @@ from game.view import View
 class App:
     def __init__(self):
         self.game_run = True
-        self.clock = pygame.time.Clock()
         self.model = Model()
         self.view = View()
         self.controller = Controller(self.model)
@@ -25,7 +24,7 @@ class App:
             self.controller.handler_events()
             self.model.update()
             self.view.draw()
-            self.clock.tick(FPS)
+            self.model.clock.tick(FPS)
 
 
 if __name__ == '__main__':

@@ -16,6 +16,7 @@ class Ship(GameObject):
         self._group_projectiles = validate_type(group_projectiles, Group)
         self._moving_left = False
         self._moving_right = False
+        self._attacking = False
 
     def copy(self):
         pass
@@ -25,6 +26,8 @@ class Ship(GameObject):
             self.x -= self.move_speed
         if self._moving_right:
             self.x += self.move_speed
+        if self._attacking:
+            self.attack()
 
     @check_value_type(int, bool)
     def set_moving_flag(self, direction: int, value: bool):
@@ -33,6 +36,10 @@ class Ship(GameObject):
             RIGHT: '_moving_right'
         }
         self.__setattr__(directions[direction], value)
+
+    @check_value_type(bool)
+    def set_attacking_flag(self, value: bool):
+        self._attacking = value
 
     def attack(self):
         self._weapon.attack(self.centerx, self.top, self._group_projectiles)

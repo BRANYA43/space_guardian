@@ -9,3 +9,4 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 pygame.font.init()
 
 bionicle = pygame.font.Font('bionicle.ttf', FONT_SIZE)
+

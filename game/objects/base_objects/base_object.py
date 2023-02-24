@@ -34,7 +34,6 @@ class BaseObject(ABC):
     @check_value_type(Surface)
     def surface(self, value: Surface):
         self._surface = value
-        self._rect = self._surface.get_rect()
 
     @property
     def x(self) -> int:
